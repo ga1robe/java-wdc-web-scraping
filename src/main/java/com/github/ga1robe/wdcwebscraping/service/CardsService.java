@@ -43,7 +43,7 @@ public class CardsService {
                 ElementHandle cardsHandle =  element.querySelector("span.cards--store--A2ezoRc");
                 String cards = cardsHandle.innerText();
 
-                String servicesContainer = null;
+                String servicesContainer = new String("");
                 try {
                     ElementHandle servicesContainerHandle =  element.querySelector("div.card--servicesContainer--2RFr8_L.cards--service--2jqKJWn");
                     if(servicesContainerHandle != null)
