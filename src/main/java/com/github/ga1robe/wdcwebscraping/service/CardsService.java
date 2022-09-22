@@ -74,7 +74,6 @@ public class CardsService {
                         evaluation = Double.parseDouble(evaluationHandle.innerText().replace(",","."));
                 }
                 catch(NullPointerException e){
-                    evaluation = Double.NaN;
                     System.err.println(e.getMessage());
                 }
 
