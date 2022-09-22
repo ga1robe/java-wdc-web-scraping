@@ -143,4 +143,8 @@ public class CardsService {
             return this.soldLabel;
         }
     }
+
+    public void clear() {
+        records.clear();
+    }
 }
