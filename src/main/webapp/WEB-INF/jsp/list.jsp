@@ -3,6 +3,21 @@
 <%@ include file="common/header.jspf" %>
 <%@ include file="common/navigation.jspf" %>
 
+<c:if test="${success != null}">
+	<div class="alert alert-success" role="alert">
+		${success}
+	</div>
+</c:if>
+
+
+<form method="post">
+	<div class="form-group">
+		<label for="title">Tytuł</label>
+		<input type="text" class="form-control" id="title" name="title" placeholder="Podaj tytuł" value="${title}">
+	</div>
+	<button type="submit" class="btn btn-primary">Szukaj</button>
+</form>
+
 <h3>Lista ofert</h3>
 
 <!--<table class="table table-responsive-xl">-->

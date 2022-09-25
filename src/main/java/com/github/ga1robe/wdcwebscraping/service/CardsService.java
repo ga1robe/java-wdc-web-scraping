@@ -7,10 +7,12 @@ import com.github.ga1robe.wdcwebscraping.model.CardContainer;
 import com.microsoft.playwright.*;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,7 @@ public class CardsService {
 
     @PostConstruct
     public void loadData() {
-        System.out.println("[loadData] Adding data on startup");
+        System.out.println("[loadData] Adding data on startup...");
         try (Playwright playwright = Playwright.create()) {
             final BrowserType chromium = playwright.chromium();
             final Browser browser = chromium.launch();
@@ -89,6 +91,20 @@ public class CardsService {
 
     public void addRecord(CardContainer record) {
         records.add(record);
+    }
+
+    public List<CardContainer> getMainDataSPM(String title) {
+        records = records.stream()
+                .filter(x -> x.getTitle().contains(title))
+                .collect(Collectors.toList());
+        return records;
+    }
+
+    private static boolean isContain(String source, String subItem){
+        String pattern = "\\b"+subItem+"\\b";
+        Pattern p=Pattern.compile(pattern);
+        Matcher m=p.matcher(source);
+        return m.find();
     }
 
     private class SplitedPrice{
