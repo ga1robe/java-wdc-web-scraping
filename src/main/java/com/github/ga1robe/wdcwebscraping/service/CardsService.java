@@ -24,6 +24,12 @@ public class CardsService {
     @PostConstruct
     public void loadData() {
         System.out.println("[loadData] Adding data on startup...");
+        clear();
+        DynamicScraping();
+
+    }
+
+    private void DynamicScraping() {
         try (Playwright playwright = Playwright.create()) {
             final BrowserType chromium = playwright.chromium();
             final Browser browser = chromium.launch();
@@ -86,14 +92,19 @@ public class CardsService {
     }
 
     public List<CardContainer> getMainDataSPM() {
+        System.out.println("[loadData] data...");
+        clear();
+        DynamicScraping();
         return records;
     }
 
     public void addRecord(CardContainer record) {
-        records.add(record);
+        if(!records.contains(record))
+            records.add(record);
     }
 
     public List<CardContainer> getMainDataSPM(String title) {
+        System.out.println("[selectedData] selected data by title...");
         records = records.stream()
                 .filter(x -> x.getTitle().contains(title))
                 .collect(Collectors.toList());

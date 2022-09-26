@@ -29,21 +29,23 @@ public class CardsController {
     }
 
     @RequestMapping(value="/list", method = RequestMethod.POST)
-    public String postEnter(ModelMap model, @RequestParam String title){
+    public String postTitle(ModelMap model, @RequestParam String title){
         try {
-//            if (title.isEmpty()) {
+            if (title.isEmpty()) {
+                model.put("mainDataSPM", this.service.getMainDataSPM());
+                model.put("success","Dane załadowane ponownie");
+                return "list";
 //                throw new IllegalArgumentException("Missing title parameter");
-//            }
+            }
             System.out.println("POST title: " + title);
             model.put("mainDataSPM", this.service.getMainDataSPM(title));
-//            TempRecord record = new TempRecord(0L, LocalDate.now(), LocalTime.now(), city, Double.parseDouble(temp));
-//            service.addRecord(record);
             model.put("success","Dane wyszukane");
         } catch (Exception e) {
             model.put("error","Bład wprowadzania danych do przeszukania, podaj tytuł do wyszukania");
             return "list";
         }
-        return "redirect:list";
+//        return "redirect:list";
+        return "list";
     }
 
     @RequestMapping(value="/list", method = RequestMethod.GET)
