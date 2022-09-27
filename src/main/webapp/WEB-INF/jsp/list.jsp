@@ -45,7 +45,7 @@
 				<td>${card.cards}</td>
 				<td>${card.servicesContainer}</td>
 				<td><fmt:formatNumber pattern="0" value="${card.sold}"/></td>
-				<div class="col hidden"><td>${card.evaluation}</td></div>
+				<td>${card.evaluation}</td>
 			</tr>
 		</c:forEach>
 	</tbody>

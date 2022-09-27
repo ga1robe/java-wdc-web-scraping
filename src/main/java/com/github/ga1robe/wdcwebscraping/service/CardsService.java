@@ -85,7 +85,7 @@ public class CardsService {
 
                 }
                 catch(NullPointerException e){
-                    evaluation = "--";
+                    evaluation = "";
                     System.err.println(e.getMessage());
                 }
 
