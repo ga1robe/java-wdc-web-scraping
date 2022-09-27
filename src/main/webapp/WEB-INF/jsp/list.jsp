@@ -16,10 +16,10 @@
 	</div>
 	<button type="submit" class="btn btn-primary">Szukaj</button>
 	<c:if test="${searchTitle != null}">
-	<div class="form-group">
-	    <label for="title">Szukany tytuł</label>
-	    <input class="form-control" type="text" placeholder="${searchTitle}" readonly>
-	</div>
+	    <div class="form-group">
+	        <label for="title">Szukany tytuł</label>
+	        <input class="form-control" type="text" placeholder="${searchTitle}" readonly>
+	    </div>
 	</c:if>
 </form>
 
@@ -34,6 +34,7 @@
 			<th scope="col">karty</th>
 			<th scope="col">serwis</th>
 			<th scope="col">Sprzedano</th>
+			<th scope="col">&nbsp;</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -44,6 +45,7 @@
 				<td>${card.cards}</td>
 				<td>${card.servicesContainer}</td>
 				<td><fmt:formatNumber pattern="0" value="${card.sold}"/></td>
+				<div class="col hidden"><td>${card.evaluation}</td></div>
 			</tr>
 		</c:forEach>
 	</tbody>

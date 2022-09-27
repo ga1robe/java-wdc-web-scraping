@@ -76,13 +76,16 @@ public class CardsService {
                     System.err.println(e.getMessage());
                 }
 
-                double evaluation = Double.NaN;
+                String evaluation = new String();
                 try {
                     ElementHandle evaluationHandle =  element.querySelector("span.card--evaluation");
                     if(evaluationHandle != null)
-                        evaluation = Double.parseDouble(evaluationHandle.innerText().replace(",","."));
+                        evaluation = evaluationHandle.innerText().replace(",",".");
+//                        evaluation = Double.parseDouble(evaluationHandle.innerText().replace(",","."));
+
                 }
                 catch(NullPointerException e){
+                    evaluation = "--";
                     System.err.println(e.getMessage());
                 }
 

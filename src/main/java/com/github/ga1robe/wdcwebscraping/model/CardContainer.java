@@ -40,9 +40,10 @@ public class CardContainer {
     private int sold;
 
     @Null
-    private double evaluation;
+    private String evaluation;
+//    private double evaluation;
 
-    public CardContainer(String title, double price, String priceCurrency, String cards, String servicesContainer, int sold, double evaluation) {
+    public CardContainer(String title, double price, String priceCurrency, String cards, String servicesContainer, int sold, String evaluation) {
         this.title = title;
         this.price = price;
         this.priceCurrency = priceCurrency;
