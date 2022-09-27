@@ -81,8 +81,6 @@ public class CardsService {
                     ElementHandle evaluationHandle =  element.querySelector("span.card--evaluation");
                     if(evaluationHandle != null)
                         evaluation = evaluationHandle.innerText().replace(",",".");
-//                        evaluation = Double.parseDouble(evaluationHandle.innerText().replace(",","."));
-
                 }
                 catch(NullPointerException e){
                     evaluation = "";
