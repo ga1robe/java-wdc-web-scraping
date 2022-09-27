@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 public class CardsService {
 
     private static List<CardContainer> records = new ArrayList<CardContainer>();
+    private static String searchTitle = new String();
 
     @PostConstruct
     public void loadData() {
@@ -116,6 +117,15 @@ public class CardsService {
         Pattern p=Pattern.compile(pattern);
         Matcher m=p.matcher(source);
         return m.find();
+    }
+
+    public Object setSearchtitle(String title) {
+        this.searchTitle = title;
+        return this.searchTitle;
+    }
+
+    public String getSearchtitle() {
+        return this.searchTitle;
     }
 
     private class SplitedPrice{

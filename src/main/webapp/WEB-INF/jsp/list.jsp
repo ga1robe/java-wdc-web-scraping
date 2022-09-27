@@ -9,13 +9,18 @@
 	</div>
 </c:if>
 
-
 <form method="post">
 	<div class="form-group">
 		<label for="title">Tytuł</label>
 		<input type="text" class="form-control" id="title" name="title" placeholder="Podaj tytuł" value="${title}">
 	</div>
 	<button type="submit" class="btn btn-primary">Szukaj</button>
+	<c:if test="${searchTitle != null}">
+	<div class="form-group">
+	    <label for="title">Szukany tytuł</label>
+	    <input class="form-control" type="text" placeholder="${searchTitle}" readonly>
+	</div>
+	</c:if>
 </form>
 
 <h3>Lista ofert</h3>

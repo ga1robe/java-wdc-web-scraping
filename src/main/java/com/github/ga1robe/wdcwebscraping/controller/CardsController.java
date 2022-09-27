@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+//import java.time.LocalDate;
+//import java.time.LocalTime;
 
 @Controller
 @SessionAttributes("name")
@@ -35,16 +35,15 @@ public class CardsController {
                 model.put("mainDataSPM", this.service.getMainDataSPM());
                 model.put("success","Dane załadowane ponownie");
                 return "list";
-//                throw new IllegalArgumentException("Missing title parameter");
             }
             System.out.println("POST title: " + title);
+            model.put("searchTitle", this.service.setSearchtitle(title));
             model.put("mainDataSPM", this.service.getMainDataSPM(title));
             model.put("success","Dane wyszukane");
         } catch (Exception e) {
             model.put("error","Bład wprowadzania danych do przeszukania, podaj tytuł do wyszukania");
             return "list";
         }
-//        return "redirect:list";
         return "list";
     }
 
