@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-//import java.time.LocalDate;
-//import java.time.LocalTime;
-
 @Controller
 @SessionAttributes("name")
 public class CardsController {

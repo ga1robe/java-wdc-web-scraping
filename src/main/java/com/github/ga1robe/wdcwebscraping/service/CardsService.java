@@ -7,7 +7,6 @@ import com.github.ga1robe.wdcwebscraping.model.CardContainer;
 import com.microsoft.playwright.*;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import java.util.regex.Matcher;
@@ -24,10 +23,13 @@ public class CardsService {
 
     @PostConstruct
     public void loadData() {
-        System.out.println("[loadData] Adding data on startup...");
         clear();
+        System.out.println("[loadData] Adding data on startup...");
         DynamicScraping();
+    }
 
+    public static List<CardContainer> getRecords() {
+        return records;
     }
 
     private void DynamicScraping() {
