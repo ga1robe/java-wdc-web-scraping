@@ -28,10 +28,6 @@ public class CardsService {
         DynamicScraping();
     }
 
-    public static List<CardContainer> getRecords() {
-        return records;
-    }
-
     private void DynamicScraping() {
         try (Playwright playwright = Playwright.create()) {
             final BrowserType chromium = playwright.chromium();
@@ -181,6 +177,10 @@ public class CardsService {
         public String getSoldLabel() {
             return this.soldLabel;
         }
+    }
+
+    public static List<CardContainer> getRecords() {
+        return records;
     }
 
     public void clear() {
