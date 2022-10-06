@@ -42,7 +42,7 @@
 			<tr>
 				<td>${card.title}</td>
 				<td>${card.price} ${card.priceCurrency}</td>
-				<td>${card.cards}</td>
+				<td><a role=${card.cardsStoreARole} href=${card.cardsStoreAHref} target=${card.cardsStoreATarget}>${card.cards}</a></td>
 				<td>${card.servicesContainer}</td>
 				<td><fmt:formatNumber pattern="0" value="${card.sold}"/></td>
 				<td>${card.evaluation}</td>

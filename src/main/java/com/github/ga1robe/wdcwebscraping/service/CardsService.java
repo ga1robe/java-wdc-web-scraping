@@ -49,6 +49,10 @@ public class CardsService {
 
                 ElementHandle cardsHandle =  element.querySelector("span.cards--store--A2ezoRc");
                 String cards = cardsHandle.innerText();
+                ElementHandle cardsStoreLinkHandle = element.querySelector("a.cards--storeLink--1_xx4cD");
+                String cardsStoreAHref = cardsStoreLinkHandle.getAttribute("href");
+                String cardsStoreARole = cardsStoreLinkHandle.getAttribute("role");
+                String cardsStoreATarget = cardsStoreLinkHandle.getAttribute("target");
 
                 String servicesContainer = new String("");
                 try {
@@ -85,7 +89,7 @@ public class CardsService {
                     System.err.println(e.getMessage());
                 }
 
-                CardContainer cardContainer = new CardContainer(title, price, priceCurrency, cards, servicesContainer, sold, evaluation);
+                CardContainer cardContainer = new CardContainer(title, price, priceCurrency, cards, cardsStoreARole, cardsStoreAHref, cardsStoreATarget, servicesContainer, sold, evaluation);
                 addRecord(cardContainer);
             }
             browser.close();

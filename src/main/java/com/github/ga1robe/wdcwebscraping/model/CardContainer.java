@@ -33,6 +33,15 @@ public class CardContainer {
     @NotNull
     private String cards;
 
+    @NotNull
+    private String cardsStoreARole;
+
+    @NotNull
+    private String cardsStoreAHref;
+
+    @NotNull
+    private String cardsStoreATarget;
+
     @Null
     private String servicesContainer;
 
@@ -53,6 +62,19 @@ public class CardContainer {
         this.evaluation = evaluation;
     }
 
+    public CardContainer(String title, double price, String priceCurrency, String cards, String cardsStoreARole, String cardsStoreAHref, String cardsStoreATarget, String servicesContainer, int sold, String evaluation) {
+        this.title = title;
+        this.price = price;
+        this.priceCurrency = priceCurrency;
+        this.cards = cards;
+        this.cardsStoreARole = cardsStoreARole;
+        this.cardsStoreAHref = cardsStoreAHref;
+        this.cardsStoreATarget = cardsStoreATarget;
+        this.servicesContainer = servicesContainer;
+        this.sold = sold;
+        this.evaluation = evaluation;
+    }
+
     @Override
     public String toString() {
         return "CardContainer{" +
@@ -60,7 +82,7 @@ public class CardContainer {
                 ", title='" + title + '\'' +
                 ", price=" + price +
                 "'" + priceCurrency + '\'' +
-                ", cards='" + cards + '\'' +
+                ", cards='<a role=\""+cardsStoreARole+"\" href=\""+cardsStoreAHref+"\" target=\""+ cardsStoreATarget +"\">" + cards + "</a>'" +
                 ", servicesContainer='" + servicesContainer + '\'' +
                 ", sold=" + sold +
                 ", evaluation=" + evaluation +
