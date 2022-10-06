@@ -88,6 +88,7 @@ public class CardsService {
                 CardContainer cardContainer = new CardContainer(title, price, priceCurrency, cards, servicesContainer, sold, evaluation);
                 addRecord(cardContainer);
             }
+            browser.close();
         }
     }
 
