@@ -25,6 +25,12 @@ public class CardContainer {
     private String title;
 
     @NotNull
+    private String cardsContainerAHref;
+
+    @Null
+    private String cardsContainerATarget;
+
+    @NotNull
     private double price;
 
     @NotNull
@@ -33,13 +39,13 @@ public class CardContainer {
     @NotNull
     private String cards;
 
-    @NotNull
+    @Null
     private String cardsStoreARole;
 
     @NotNull
     private String cardsStoreAHref;
 
-    @NotNull
+    @Null
     private String cardsStoreATarget;
 
     @Null
@@ -62,8 +68,10 @@ public class CardContainer {
         this.evaluation = evaluation;
     }
 
-    public CardContainer(String title, double price, String priceCurrency, String cards, String cardsStoreARole, String cardsStoreAHref, String cardsStoreATarget, String servicesContainer, int sold, String evaluation) {
+    public CardContainer(String title, String cardsContainerAHref, String cardsContainerATarget, double price, String priceCurrency, String cards, String cardsStoreARole, String cardsStoreAHref, String cardsStoreATarget, String servicesContainer, int sold, String evaluation) {
         this.title = title;
+        this.cardsContainerAHref = cardsContainerAHref;
+        this.cardsContainerATarget = cardsContainerATarget;
         this.price = price;
         this.priceCurrency = priceCurrency;
         this.cards = cards;
@@ -79,7 +87,7 @@ public class CardContainer {
     public String toString() {
         return "CardContainer{" +
                 "id=" + id +
-                ", title='" + title + '\'' +
+                ", title=\'<a href=\""+cardsContainerAHref+"\" target=\""+cardsContainerATarget+"\">" + title + "</a>\'" +
                 ", price=" + price +
                 "'" + priceCurrency + '\'' +
                 ", cards='<a role=\""+cardsStoreARole+"\" href=\""+cardsStoreAHref+"\" target=\""+ cardsStoreATarget +"\">" + cards + "</a>'" +

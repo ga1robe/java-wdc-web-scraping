@@ -40,7 +40,7 @@
 	<tbody>
 		<c:forEach items="${mainDataSPM}" var="card">
 			<tr>
-				<td>${card.title}</td>
+				<td><a href=${card.cardsContainerAHref} target=${card.cardsContainerATarget}>${card.title}</a></td>
 				<td>${card.price} ${card.priceCurrency}</td>
 				<td><a role=${card.cardsStoreARole} href=${card.cardsStoreAHref} target=${card.cardsStoreATarget}>${card.cards}</a></td>
 				<td>${card.servicesContainer}</td>

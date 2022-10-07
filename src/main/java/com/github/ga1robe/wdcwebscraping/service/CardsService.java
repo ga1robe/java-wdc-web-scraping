@@ -42,6 +42,9 @@ public class CardsService {
                 ElementHandle titleHandle = element.querySelector("div.card--title--XbBBi0C.cards--title--2rMisuY");
                 String title = titleHandle.innerText();
 
+                String cardsContainerAHref = element.getProperty("href").toString();
+                String cardsContainerATarget = element.getProperty("target").toString();
+
                 ElementHandle priceHandle = element.querySelector("div.card--price--1vog9ZD.cards--price--1Ieyi-z");
                 SplitedPrice splitedPrice = new SplitedPrice(priceHandle.innerText());
                 double price = splitedPrice.getPrice();
@@ -89,7 +92,7 @@ public class CardsService {
                     System.err.println(e.getMessage());
                 }
 
-                CardContainer cardContainer = new CardContainer(title, price, priceCurrency, cards, cardsStoreARole, cardsStoreAHref, cardsStoreATarget, servicesContainer, sold, evaluation);
+                CardContainer cardContainer = new CardContainer(title, cardsContainerAHref, cardsContainerATarget, price, priceCurrency, cards, cardsStoreARole, cardsStoreAHref, cardsStoreATarget, servicesContainer, sold, evaluation);
                 addRecord(cardContainer);
             }
             browser.close();
