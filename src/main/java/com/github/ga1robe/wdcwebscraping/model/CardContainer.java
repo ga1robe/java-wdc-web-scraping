@@ -25,12 +25,6 @@ public class CardContainer {
     private String title;
 
     @NotNull
-    private String cardsContainerAHref;
-
-    @Null
-    private String cardsContainerATarget;
-
-    @NotNull
     private double price;
 
     @NotNull
@@ -40,15 +34,6 @@ public class CardContainer {
     private String cards;
 
     @Null
-    private String cardsStoreARole;
-
-    @NotNull
-    private String cardsStoreAHref;
-
-    @Null
-    private String cardsStoreATarget;
-
-    @Null
     private String servicesContainer;
 
     @Null
@@ -56,7 +41,15 @@ public class CardContainer {
 
     @Null
     private String evaluation;
-//    private double evaluation;
+
+    @Null
+    private String savesContainer;
+
+    @Null
+    private String salesContainer;
+
+    @Null
+    private String placeHolder;
 
     public CardContainer(String title, double price, String priceCurrency, String cards, String servicesContainer, int sold, String evaluation) {
         this.title = title;
@@ -68,29 +61,39 @@ public class CardContainer {
         this.evaluation = evaluation;
     }
 
-    public CardContainer(String title, String cardsContainerAHref, String cardsContainerATarget, double price, String priceCurrency, String cards, String cardsStoreARole, String cardsStoreAHref, String cardsStoreATarget, String servicesContainer, int sold, String evaluation) {
+    public CardContainer(String title, double price, String priceCurrency, String cardsStore, String servicesContainer, int soldNumber, String evaluation, String savesContainer, String salesContainer, String placeHolder) {
         this.title = title;
-        this.cardsContainerAHref = cardsContainerAHref;
-        this.cardsContainerATarget = cardsContainerATarget;
         this.price = price;
         this.priceCurrency = priceCurrency;
-        this.cards = cards;
-        this.cardsStoreARole = cardsStoreARole;
-        this.cardsStoreAHref = cardsStoreAHref;
-        this.cardsStoreATarget = cardsStoreATarget;
+        this.cards = cardsStore;
         this.servicesContainer = servicesContainer;
-        this.sold = sold;
+        this.sold = soldNumber;
         this.evaluation = evaluation;
+        this.savesContainer = savesContainer;
+        this.salesContainer = salesContainer;
+        this.placeHolder = placeHolder;
+    }
+
+    public CardContainer(String title, double price, String priceCurrency, String cardsStore, String servicesContainer, int soldNumber, String evaluation, String savesContainer, String placeHolder) {
+        this.title = title;
+        this.price = price;
+        this.priceCurrency = priceCurrency;
+        this.cards = cardsStore;
+        this.servicesContainer = servicesContainer;
+        this.sold = soldNumber;
+        this.evaluation = evaluation;
+        this.savesContainer = savesContainer;
+        this.placeHolder = placeHolder;
     }
 
     @Override
     public String toString() {
         return "CardContainer{" +
                 "id=" + id +
-                ", title=\'<a href=\""+cardsContainerAHref+"\" target=\""+cardsContainerATarget+"\">" + title + "</a>\'" +
+                ", title=\'" + title + '\'' +
                 ", price=" + price +
                 "'" + priceCurrency + '\'' +
-                ", cards='<a role=\""+cardsStoreARole+"\" href=\""+cardsStoreAHref+"\" target=\""+ cardsStoreATarget +"\">" + cards + "</a>'" +
+                ", cards=\'" + cards + '\'' +
                 ", servicesContainer='" + servicesContainer + '\'' +
                 ", sold=" + sold +
                 ", evaluation=" + evaluation +

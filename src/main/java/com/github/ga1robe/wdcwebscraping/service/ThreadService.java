@@ -34,20 +34,37 @@ public class ThreadService implements Runnable {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+            this.service.clear();
             this.service.getMainDataSPM();
             if (debug) {
-                log.info("###### MainDataSPM: " + this.service.getRecords());
+                log.info("###### MainData-SPM: " + this.service.getOccasionsRecords());
             }
-            if(debug && this.service.getRecords().size() == 0){
-                log.warn("###### WARNING: Size of MainDataSPM: " + this.service.getRecords().size());
+            if(debug && this.service.getOccasionsRecords().size() == 0){
+                log.warn("###### WARNING: Size of MainData-SPM: " + this.service.getOccasionsRecords().size());
                 do {
                     try {
-                        Thread.sleep( 1*1000L);
+                        Thread.sleep( 3*1000L);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
-                    log.warn("###### WARNING: MainDataSPM: " + this.service.getMainDataSPM());
-                } while(this.service.getRecords().size() == 0);
+                    log.warn("###### WARNING: MainData-SPM: " + this.service.getMainDataSPM());
+                } while(this.service.getOccasionsRecords().size() == 0);
+
+            }
+            this.service.getProductToSell();
+            if (debug) {
+                log.info("###### Products-to-sell in 2022: " + this.service.getSearchTextRecords());
+            }
+            if(debug && this.service.getSearchTextRecords().size() == 0) {
+                log.warn("###### WARNING: Size of Products-to-sell in 2022: " + this.service.getSearchTextRecords().size());
+                do {
+                    try {
+                        Thread.sleep(3 * 1000L);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    log.warn("###### WARNING: Products-to-sell in 2022: " + this.service.getProductToSell());
+                } while (this.service.getSearchTextRecords().size() == 0);
             }
         }
     }

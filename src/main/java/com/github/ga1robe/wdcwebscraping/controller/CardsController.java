@@ -47,6 +47,7 @@ public class CardsController {
     @RequestMapping(value="/list", method = RequestMethod.GET)
     public String getList(ModelMap model){
         model.put("mainDataSPM", this.service.getMainDataSPM());
+        model.put("productToSell", this.service.getProductToSell());
         return "list";
     }
 }

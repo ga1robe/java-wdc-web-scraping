@@ -23,29 +23,77 @@
 	</c:if>
 </form>
 
-<h3>Lista ofert</h3>
+<h3>dropshipping oferty</h3>
 
-<!--<table class="table table-responsive-xl">-->
 <table id="example" class="table table-responsive-xl" cellspacing="0" width="100%">
 	<thead>
 		<tr>
-			<th scope="col">Tytuł</th>
-			<th scope="col">cena</th>
-			<th scope="col">karty</th>
-			<th scope="col">serwis</th>
-			<th scope="col">Sprzedano</th>
+			<th scope="col">Produkt</th>
 			<th scope="col">&nbsp;</th>
 		</tr>
 	</thead>
 	<tbody>
 		<c:forEach items="${mainDataSPM}" var="card">
 			<tr>
-				<td><a href=${card.cardsContainerAHref} target=${card.cardsContainerATarget}>${card.title}</a></td>
-				<td>${card.price} ${card.priceCurrency}</td>
-				<td><a role=${card.cardsStoreARole} href=${card.cardsStoreAHref} target=${card.cardsStoreATarget}>${card.cards}</a></td>
-				<td>${card.servicesContainer}</td>
-				<td><fmt:formatNumber pattern="0" value="${card.sold}"/></td>
-				<td>${card.evaluation}</td>
+				<td>
+				    ${card.title}<br/>
+				    <b>Karty:</b> ${card.cards}<br/>
+				    <b>Serwisy:</b> ${card.servicesContainer}
+				    <c:if test="${card.savesContainer.length() > 0}">
+                        <br/><b>Oszczędności:</b> ${card.savesContainer}
+                    </c:if>
+                    <c:if test="${card.salesContainer.length() > 0}">
+                        <br/><b>Wyprzedaże:</b> ${card.salesContainer}
+                    </c:if>
+                    <c:if test="${card.placeHolder.length() > 0}">
+                        <br/><b>Przechowanie:</b> ${card.placeHolder}
+                    </c:if>
+				</td>
+				<td>
+				    <b>cena:</b> ${card.price} ${card.priceCurrency}<br/>
+				    <b>Sprzedano:</b> <fmt:formatNumber pattern="0" value="${card.sold}"/>
+				    <c:if test="${card.evaluation.length() > 0}">
+                    	<br/><b>Ocena:</b> ${card.evaluation}
+                    </c:if>
+				</td>
+			</tr>
+		</c:forEach>
+	</tbody>
+</table>
+
+<h3>dropshipping 2022 produkty do sprzedania</h3>
+
+<table id="example" class="table table-responsive-xl" cellspacing="0" width="100%">
+	<thead>
+		<tr>
+			<th scope="col">Produkt</th>
+			<th scope="col">&nbsp;</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:forEach items="${productToSell}" var="product">
+			<tr>
+			    <td>
+                    ${product.title}<br/>
+                    <b>Karty:</b> ${product.cards}<br/>
+                    <b>Serwisy:</b> ${product.servicesContainer}
+                    <c:if test="${product.savesContainer.length() > 0}">
+                        <br/><b>Oszczędności:</b> ${product.savesContainer}
+                    </c:if>
+                    <c:if test="${product.salesContainer.length() > 0}">
+                        <br/><b>Wyprzedaże:</b> ${product.salesContainer}
+                    </c:if>
+                    <c:if test="${product.placeHolder.length() > 0}">
+                        <br/><b>Przechowanie:</b> ${product.placeHolder}
+                    </c:if>
+                </td>
+				<td>
+				    <b>Cena:</b> ${product.price} ${product.priceCurrency}<br/>
+				    <b>Sprzedano:</b> <fmt:formatNumber pattern="0" value="${product.sold}"/>
+				    <c:if test="${product.evaluation.length() > 0}">
+                        <br/><b>Ocena:</b> ${product.evaluation}
+                    </c:if>
+				</td>
 			</tr>
 		</c:forEach>
 	</tbody>

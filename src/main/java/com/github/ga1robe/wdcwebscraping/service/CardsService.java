@@ -4,6 +4,9 @@ import javax.annotation.PostConstruct;
 
 import com.github.ga1robe.wdcwebscraping.model.CardContainer;
 
+import com.github.ga1robe.wdcwebscraping.model.WDCenterLocators;
+import com.github.ga1robe.wdcwebscraping.model.WDCenterOccasionsLocators;
+import com.github.ga1robe.wdcwebscraping.model.WDCenterSearchTextLocators;
 import com.microsoft.playwright.*;
 
 import java.util.ArrayList;
@@ -18,105 +21,154 @@ import org.springframework.stereotype.Service;
 @Service
 public class CardsService {
 
-    private static List<CardContainer> records = new ArrayList<CardContainer>();
+    private static List<CardContainer> occasionsRecords = new ArrayList<CardContainer>();
+    private static List<CardContainer> searchTextRecords = new ArrayList<CardContainer>();
     private static String searchTitle = new String();
+
+    private static WDCenterLocators wdCenterSearchTextLocators = new WDCenterSearchTextLocators();
+    private static WDCenterLocators wdCenterOccasionsLocators = new WDCenterOccasionsLocators();
 
     @PostConstruct
     public void loadData() {
         clear();
         System.out.println("[loadData] Adding data on startup...");
-        DynamicScraping();
+        do {
+            DynamicScraping(occasionsRecords, wdCenterOccasionsLocators);
+            if(occasionsRecords.size() == 0) {
+                try {
+                    Thread.sleep(3 * 1000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } while(occasionsRecords.size() == 0);
+        do {
+            DynamicScraping(searchTextRecords, wdCenterSearchTextLocators);
+            if(searchTextRecords.size() == 0) {
+                try {
+                    Thread.sleep(3 * 1000L);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        } while(searchTextRecords.size() == 0);
     }
 
-    private void DynamicScraping() {
+    private static void DynamicScraping(List<CardContainer> records, WDCenterLocators wdCenterLocators) {
         try (Playwright playwright = Playwright.create()) {
             final BrowserType chromium = playwright.chromium();
             final Browser browser = chromium.launch();
             final Page page = browser.newPage();
-            page.navigate("https://pl.aliexpress.com/w/wholesale-dropshipping-center.html");
-
-            List<ElementHandle> list = page.querySelector("div[data-spm=\"main\"]").querySelectorAll("a.card--container--2h3RcUB.cards--gallery--2o6yJVt");
-
+            page.navigate(wdCenterLocators.getUrl());
+            String listGalleryLinksSelector = wdCenterLocators.getListGalleryLinks();
+            List<ElementHandle> list = page.querySelectorAll(listGalleryLinksSelector);
+            System.out.printf("[check-point] list.size(): %d for URL: %s with listGalleryLinksSelector: \'%s\'\n", list.size(), wdCenterLocators.getUrl(), listGalleryLinksSelector);
             for (ElementHandle element:
                     list) {
-                ElementHandle titleHandle = element.querySelector("div.card--title--XbBBi0C.cards--title--2rMisuY");
-                String title = titleHandle.innerText();
+                String cardContainerAHref = element.getProperty("href").toString();
+                String cardContainerATarget = element.getProperty("target").toString();
 
-                String cardsContainerAHref = element.getProperty("href").toString();
-                String cardsContainerATarget = element.getProperty("target").toString();
+                String titleSelector = wdCenterLocators.getTitle();
+                ElementHandle titleHandle = element.querySelector(titleSelector);
+                String title = "<a href=\""+cardContainerAHref+"\" target=\""+cardContainerATarget+"\">".concat(titleHandle.innerText()).concat("</a>");
 
-                ElementHandle priceHandle = element.querySelector("div.card--price--1vog9ZD.cards--price--1Ieyi-z");
+                String priceSelector = wdCenterLocators.getPrice();
+                ElementHandle priceHandle = element.querySelector(priceSelector);
                 SplitedPrice splitedPrice = new SplitedPrice(priceHandle.innerText());
                 double price = splitedPrice.getPrice();
                 String priceCurrency = splitedPrice.getCurrency();
 
-                ElementHandle cardsHandle =  element.querySelector("span.cards--store--A2ezoRc");
-                String cards = cardsHandle.innerText();
-                ElementHandle cardsStoreLinkHandle = element.querySelector("a.cards--storeLink--1_xx4cD");
+                String cardsStoreLinkSelector = wdCenterLocators.getCardsStoreLink();
+                ElementHandle cardsStoreLinkHandle =  element.querySelector(cardsStoreLinkSelector);
                 String cardsStoreAHref = cardsStoreLinkHandle.getAttribute("href");
                 String cardsStoreARole = cardsStoreLinkHandle.getAttribute("role");
                 String cardsStoreATarget = cardsStoreLinkHandle.getAttribute("target");
+                String cardsStore = "<a role=\""+cardsStoreARole+"\" href=\""+cardsStoreAHref+"\" target=\""+cardsStoreATarget+"\">".concat(cardsStoreLinkHandle.innerText()).concat("</a>");
 
-                String servicesContainer = new String("");
-                try {
-                    ElementHandle servicesContainerHandle =  element.querySelector("div.card--servicesContainer--2RFr8_L.cards--service--2jqKJWn");
-                    if(servicesContainerHandle != null)
-                        servicesContainer = servicesContainerHandle.innerText();
-                }
-                catch(NullPointerException e){
-                    System.err.println(e.getMessage());
-                }
-
-                int sold = 0;
+                String tradeInfoSelector = wdCenterLocators.getTradeInfo();
+                int soldNumber = 0;
                 String soldLabel = "sprzedano";
-                try {
-                    ElementHandle tradeInfoHandle = element.querySelector("span.card--trade--3uRoUYx");
-                    if(tradeInfoHandle != null){
-                        SplitedSold splitedSold = new SplitedSold(tradeInfoHandle.innerText());
-                        sold = splitedSold.getSold();
-                        soldLabel = splitedSold.getSoldLabel();
-                    }
-                }
-                catch(NullPointerException e){
-                    System.err.println(e.getMessage());
+                if(tradeInfoSelector != null && element.querySelector(tradeInfoSelector) != null) {
+                    ElementHandle tradeInfoHandle = element.querySelector(tradeInfoSelector);
+                    SplitedSold splitedSold = new SplitedSold(tradeInfoHandle.innerText());
+                    soldNumber = splitedSold.getSold();
+                    soldLabel = splitedSold.getSoldLabel();
                 }
 
-                String evaluation = new String();
-                try {
-                    ElementHandle evaluationHandle =  element.querySelector("span.card--evaluation");
-                    if(evaluationHandle != null)
-                        evaluation = evaluationHandle.innerText().replace(",",".");
-                }
-                catch(NullPointerException e){
-                    evaluation = "";
-                    System.err.println(e.getMessage());
+                String evaluationSelector = wdCenterLocators.getEvaluation();
+                String evaluation = new String("");
+                if(evaluationSelector != null && element.querySelector(evaluationSelector) != null) {
+                    ElementHandle evaluationHandle = element.querySelector(evaluationSelector);
+                    evaluation = evaluationHandle.innerText();
                 }
 
-                CardContainer cardContainer = new CardContainer(title, cardsContainerAHref, cardsContainerATarget, price, priceCurrency, cards, cardsStoreARole, cardsStoreAHref, cardsStoreATarget, servicesContainer, sold, evaluation);
-                addRecord(cardContainer);
+                String servicesContainerSelector = wdCenterLocators.getServicesContainer();
+                String servicesContainer = new String("");
+                if(servicesContainerSelector != null && element.querySelector(servicesContainerSelector) != null) {
+                    ElementHandle servicesContainerHandle =  element.querySelector(servicesContainerSelector);
+                    servicesContainer = servicesContainerHandle.innerText();
+                }
+
+                String savesContainerSelector = wdCenterLocators.getSavesContainer();
+                String savesContainer = new String("");
+                if(savesContainerSelector != null && element.querySelector(savesContainerSelector) != null) {
+                    ElementHandle savesContainerHandle =  element.querySelector(savesContainerSelector);
+                    savesContainer = savesContainerHandle.innerText();
+                }
+
+                String salesContainerSelector = wdCenterLocators.getSalesContainer();
+                String salesContainer = new String("");
+                if(salesContainerSelector != null && element.querySelector(salesContainerSelector) != null) {
+                    ElementHandle salesContainerHandle =  element.querySelector(salesContainerSelector);
+                    salesContainer = salesContainerHandle.innerText();
+                }
+
+                String placeHolderSelector = wdCenterLocators.getPlaceHolder();
+                String placeHolder = new String("");
+                if(placeHolderSelector != null && element.querySelector(placeHolderSelector) != null) {
+                    ElementHandle placeHolderHandle =  element.querySelector(placeHolderSelector);
+                    placeHolder = placeHolderHandle.innerText();
+                }
+                addRecord(records, new CardContainer(title, price, priceCurrency, cardsStore, servicesContainer, soldNumber, evaluation, savesContainer, salesContainer, placeHolder));
             }
             browser.close();
         }
     }
 
+
     public List<CardContainer> getMainDataSPM() {
+        clear(occasionsRecords);
         System.out.println("[loadData] data...");
-        clear();
-        DynamicScraping();
-        return records;
+        DynamicScraping(occasionsRecords, wdCenterOccasionsLocators);
+        return occasionsRecords;
     }
 
-    public void addRecord(CardContainer record) {
+    public List<CardContainer> getProductToSell() {
+        clear(searchTextRecords);
+        System.out.println("[loadData] data...");
+        DynamicScraping(searchTextRecords, wdCenterSearchTextLocators);
+        return searchTextRecords;
+    }
+
+    public static void addRecord(List<CardContainer> records, CardContainer record) {
         if(!records.contains(record))
             records.add(record);
     }
 
     public List<CardContainer> getMainDataSPM(String title) {
         System.out.println("[selectedData] selected data by title...");
-        records = records.stream()
+        occasionsRecords = occasionsRecords.stream()
                 .filter(x -> x.getTitle().contains(title))
                 .collect(Collectors.toList());
-        return records;
+        return occasionsRecords;
+    }
+
+    public List<CardContainer> getProductToSell(String title) {
+        System.out.println("[selectedData] selected data by title...");
+        searchTextRecords = searchTextRecords.stream()
+                .filter(x -> x.getTitle().contains(title))
+                .collect(Collectors.toList());
+        return occasionsRecords;
     }
 
     private static boolean isContain(String source, String subItem){
@@ -135,20 +187,25 @@ public class CardsService {
         return this.searchTitle;
     }
 
-    private class SplitedPrice{
+    private static class SplitedPrice{
         private double price = Double.NaN;
         private String currency = "zł";
 
         public SplitedPrice(String priceInText) {
 
-            String pattern = "(\\d+,\\d+)(\\D+)";
+            String pattern;
+            if(priceInText.contains(",")) {
+                pattern = "(\\d+,\\d+)(\\D+)";
+            } else {
+                pattern = "(\\d+)(\\D+)";
+            }
             Pattern r = Pattern.compile(pattern);
             Matcher m = r.matcher(priceInText);
-            if (m.find( )) {
-                this.price = Double.valueOf(m.group(1).replace(",","."));
+            if (m.find()) {
+                this.price = Double.valueOf(m.group(1).replace(",", "."));
                 this.currency = m.group(2);
-            }else {
-                System.out.println("Price NO MATCH");
+            } else {
+                System.out.printf("Price NO MATCH in \'%s\'\n", priceInText);
             }
         }
 
@@ -161,7 +218,7 @@ public class CardsService {
         }
     }
 
-    private class SplitedSold{
+    private static class SplitedSold{
         private int sold = 0;
         private String soldLabel = "sprzedano";
 
@@ -187,11 +244,22 @@ public class CardsService {
         }
     }
 
-    public static List<CardContainer> getRecords() {
-        return records;
+    public static List<CardContainer> getOccasionsRecords() {
+        return occasionsRecords;
     }
 
-    public void clear() {
+    public static List<CardContainer> getSearchTextRecords() {
+        return searchTextRecords;
+    }
+
+    public static void clear() {
+        if(searchTextRecords.size() > 0)
+            searchTextRecords.clear();
+        if(occasionsRecords.size() > 0)
+            occasionsRecords.clear();
+    }
+
+    private void clear(List<CardContainer> records) {
         records.clear();
     }
 }
