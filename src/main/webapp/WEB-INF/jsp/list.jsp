@@ -9,20 +9,6 @@
 	</div>
 </c:if>
 
-<form method="post">
-	<div class="form-group">
-		<label for="title">Tytuł</label>
-		<input type="text" class="form-control" id="title" name="title" placeholder="Podaj tytuł" value="${title}">
-	</div>
-	<button type="submit" class="btn btn-primary">Szukaj</button>
-	<c:if test="${searchTitle != null}">
-	    <div class="form-group">
-	        <label for="title">Szukany tytuł</label>
-	        <input class="form-control" type="text" placeholder="${searchTitle}" readonly>
-	    </div>
-	</c:if>
-</form>
-
 <h3>dropshipping oferty</h3>
 
 <table id="example" class="table table-responsive-xl" cellspacing="0" width="100%">
@@ -63,6 +49,20 @@
 
 <h3>dropshipping 2022 produkty do sprzedania</h3>
 
+<form method="post" action="/list/search">
+	<div class="form-group">
+		<label for="title">Tytuł</label>
+		<input type="text" class="form-control" id="title" name="title" placeholder="Podaj tytuł" value="${title}">
+	</div>
+	<button type="submit" class="btn btn-primary">Szukaj</button>
+	<c:if test="${searchTitle != null}">
+	    <div class="form-group">
+	        <label for="title">Szukany product</label>
+	        <input class="form-control" type="text" placeholder="${searchTitle}" readonly>
+	    </div>
+	</c:if>
+</form>
+
 <table id="example" class="table table-responsive-xl" cellspacing="0" width="100%">
 	<thead>
 		<tr>
@@ -98,6 +98,20 @@
 		</c:forEach>
 	</tbody>
 </table>
+
+<form method="post" action="/write">
+	<div class="form-group">
+		<label for="writing">Zapisz dane to pliku</label>
+		<input type="text" class="form-control" id="file" name="file" placeholder="Podaj nazwę pliku" value="${file}">
+	</div>
+	<button type="submit" class="btn btn-primary">Zapisz</button>
+	<c:if test="${savedFile != null}">
+	    <div class="form-group">
+	        <label for="saved-to-file">Zapisano do pliku</label>
+	        <input class="form-control" type="text" placeholder="${savedFile}" readonly>
+	    </div>
+	</c:if>
+</form>
 
 
 <%@ include file="common/footer.jspf" %>

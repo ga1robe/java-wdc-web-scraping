@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 @SessionAttributes("name")
 public class CardsController {
@@ -25,23 +27,39 @@ public class CardsController {
         return new RedirectView("list");
     }
 
-    @RequestMapping(value="/list", method = RequestMethod.POST)
+//    @RequestMapping(value="/list", method = RequestMethod.POST)
+    @RequestMapping(value="/list/search", method = RequestMethod.POST)
     public String postTitle(ModelMap model, @RequestParam String title){
         try {
             if (title.isEmpty()) {
                 model.put("mainDataSPM", this.service.getMainDataSPM());
+                model.put("productToSell", this.service.getProductToSell());
                 model.put("success","Dane załadowane ponownie");
                 return "list";
             }
             System.out.println("POST title: " + title);
             model.put("searchTitle", this.service.setSearchtitle(title));
             model.put("mainDataSPM", this.service.getMainDataSPM(title));
+            model.put("productToSell", this.service.getProductToSell(title));
             model.put("success","Dane wyszukane");
         } catch (Exception e) {
             model.put("error","Bład wprowadzania danych do przeszukania, podaj tytuł do wyszukania");
             return "list";
         }
         return "list";
+    }
+
+    @RequestMapping(value="/write", method = RequestMethod.POST)
+    public String writeToFile(ModelMap model, HttpServletResponse response){
+        try {
+//            model.put("mainDataSPM", this.service.writeMainDataSPM("mainDataSPM", response));
+            model.put("productToSell", this.service.writeProductToSell("productToSell", response));
+            model.put("success","Dane zapisane do pliku");
+        } catch (Exception e) {
+            model.put("error","Bład wprowadzania danych do przeszukania, podaj tytuł do wyszukania");
+            return "redirect:list";
+        }
+        return "redirect:list";
     }
 
     @RequestMapping(value="/list", method = RequestMethod.GET)

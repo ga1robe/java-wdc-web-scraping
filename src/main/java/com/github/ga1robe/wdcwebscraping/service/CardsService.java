@@ -16,6 +16,20 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import javax.servlet.http.HttpServletResponse;
+
+import com.sun.net.httpserver.spi.HttpServerProvider;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+
+import com.github.ga1robe.wdcwebscraping.util.ExcelGenerator;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -139,14 +153,18 @@ public class CardsService {
     public List<CardContainer> getMainDataSPM() {
         clear(occasionsRecords);
         System.out.println("[loadData] data...");
-        DynamicScraping(occasionsRecords, wdCenterOccasionsLocators);
+        do {
+            DynamicScraping(occasionsRecords, wdCenterOccasionsLocators);
+        } while(occasionsRecords.size() == 0);
         return occasionsRecords;
     }
 
     public List<CardContainer> getProductToSell() {
         clear(searchTextRecords);
         System.out.println("[loadData] data...");
-        DynamicScraping(searchTextRecords, wdCenterSearchTextLocators);
+        do {
+            DynamicScraping(searchTextRecords, wdCenterSearchTextLocators);
+        } while(searchTextRecords.size() == 0);
         return searchTextRecords;
     }
 
@@ -168,14 +186,7 @@ public class CardsService {
         searchTextRecords = searchTextRecords.stream()
                 .filter(x -> x.getTitle().contains(title))
                 .collect(Collectors.toList());
-        return occasionsRecords;
-    }
-
-    private static boolean isContain(String source, String subItem){
-        String pattern = "\\b"+subItem+"\\b";
-        Pattern p=Pattern.compile(pattern);
-        Matcher m=p.matcher(source);
-        return m.find();
+        return searchTextRecords;
     }
 
     public Object setSearchtitle(String title) {
@@ -185,6 +196,51 @@ public class CardsService {
 
     public String getSearchtitle() {
         return this.searchTitle;
+    }
+
+    public String writeMainDataSPM(String title, HttpServletResponse response) throws IOException {
+        System.out.println("[check-point] TODO. place to write \'occasionsRecords\' data to file");
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename="+title+"_records_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        ExcelGenerator generator = new ExcelGenerator(occasionsRecords);
+        try {
+            System.out.println("generator.generate(response)(1)pre...");
+            generator.generate(response);
+            System.out.println("generator.generate(response)(1)past...");
+        } catch (IOException e) {
+            System.out.println("IOException(1)");
+            e.printStackTrace();
+        }
+        return "saved";
+    }
+
+    public String writeProductToSell(String title, HttpServletResponse response) {
+        System.out.println("[check-point] TODO. place to write \'searchTextRecords\' data to file");
+
+        response.setContentType("application/octet-stream");
+        DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
+        String currentDateTime = dateFormatter.format(new Date());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = "attachment; filename="+title+"_records_" + currentDateTime + ".xlsx";
+        response.setHeader(headerKey, headerValue);
+
+        ExcelGenerator generator = new ExcelGenerator(searchTextRecords);
+        try {
+            System.out.println("generator.generate(response)(2)pre...");
+            generator.generate(response);
+            System.out.println("generator.generate(response)(2)past...");
+        } catch (IOException e) {
+            System.out.println("IOException(2)");
+            e.printStackTrace();
+        }
+        return "saved";
     }
 
     private static class SplitedPrice{
