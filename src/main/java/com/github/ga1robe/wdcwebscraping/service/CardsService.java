@@ -84,7 +84,12 @@ public class CardsService {
 
                 String titleSelector = wdCenterLocators.getTitle();
                 ElementHandle titleHandle = element.querySelector(titleSelector);
-                String title = "<a href=\""+cardContainerAHref+"\" target=\""+cardContainerATarget+"\">".concat(titleHandle.innerText()).concat("</a>");
+                String titleText = "";
+                if(titleHandle != null)
+                    titleText = titleHandle.innerText();
+                else
+                    titleText = "NO TITLE";
+                String title = "<a href=\""+cardContainerAHref+"\" target=\""+cardContainerATarget+"\">".concat(titleText).concat("</a>");
 
                 String priceSelector = wdCenterLocators.getPrice();
                 ElementHandle priceHandle = element.querySelector(priceSelector);
@@ -97,7 +102,12 @@ public class CardsService {
                 String cardsStoreAHref = cardsStoreLinkHandle.getAttribute("href");
                 String cardsStoreARole = cardsStoreLinkHandle.getAttribute("role");
                 String cardsStoreATarget = cardsStoreLinkHandle.getAttribute("target");
-                String cardsStore = "<a role=\""+cardsStoreARole+"\" href=\""+cardsStoreAHref+"\" target=\""+cardsStoreATarget+"\">".concat(cardsStoreLinkHandle.innerText()).concat("</a>");
+                String cardsStoreLinkText = "";
+                if(cardsStoreLinkHandle != null)
+                    cardsStoreLinkText = cardsStoreLinkHandle.innerText();
+                else
+                    cardsStoreLinkText = "NO CARDS STORE";
+                String cardsStore = "<a role=\""+cardsStoreARole+"\" href=\""+cardsStoreAHref+"\" target=\""+cardsStoreATarget+"\">".concat(cardsStoreLinkText).concat("</a>");
 
                 String tradeInfoSelector = wdCenterLocators.getTradeInfo();
                 int soldNumber = 0;
@@ -210,34 +220,25 @@ public class CardsService {
 
         ExcelGenerator generator = new ExcelGenerator(occasionsRecords);
         try {
-            System.out.println("generator.generate(response)(1)pre...");
             generator.generate(response);
-            System.out.println("generator.generate(response)(1)past...");
         } catch (IOException e) {
-            System.out.println("IOException(1)");
             e.printStackTrace();
         }
         return "saved";
     }
 
     public String writeProductToSell(String title, HttpServletResponse response) {
-        System.out.println("[check-point] TODO. place to write \'searchTextRecords\' data to file");
-
         response.setContentType("application/octet-stream");
         DateFormat dateFormatter = new SimpleDateFormat("yyyy-MM-dd_HH:mm:ss");
         String currentDateTime = dateFormatter.format(new Date());
-
         String headerKey = "Content-Disposition";
         String headerValue = "attachment; filename="+title+"_records_" + currentDateTime + ".xlsx";
         response.setHeader(headerKey, headerValue);
 
         ExcelGenerator generator = new ExcelGenerator(searchTextRecords);
         try {
-            System.out.println("generator.generate(response)(2)pre...");
             generator.generate(response);
-            System.out.println("generator.generate(response)(2)past...");
         } catch (IOException e) {
-            System.out.println("IOException(2)");
             e.printStackTrace();
         }
         return "saved";
@@ -287,7 +288,7 @@ public class CardsService {
                 this.sold = Integer.parseInt(m.group(1));
                 this.soldLabel = m.group(2);
             }else {
-                System.out.println("Price NO MATCH");
+                System.out.printf("Sold NO MATCH in \'%s\'", soldInText);
             }
         }
 

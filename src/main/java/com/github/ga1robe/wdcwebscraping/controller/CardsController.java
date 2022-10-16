@@ -49,10 +49,21 @@ public class CardsController {
         return "list";
     }
 
-    @RequestMapping(value="/write", method = RequestMethod.POST)
-    public String writeToFile(ModelMap model, HttpServletResponse response){
+    @RequestMapping(value="/occasions_write", method = RequestMethod.POST)
+    public String writeMainDataSPMToFile(ModelMap model, HttpServletResponse response){
         try {
-//            model.put("mainDataSPM", this.service.writeMainDataSPM("mainDataSPM", response));
+            model.put("mainDataSPM", this.service.writeMainDataSPM("mainDataSPM", response));
+            model.put("success","Dane zapisane do pliku");
+        } catch (Exception e) {
+            model.put("error","Bład wprowadzania danych do przeszukania, podaj tytuł do wyszukania");
+            return "redirect:list";
+        }
+        return "redirect:list";
+    }
+
+    @RequestMapping(value="/products_write", method = RequestMethod.POST)
+    public String writeProductToSellToFile(ModelMap model, HttpServletResponse response){
+        try {
             model.put("productToSell", this.service.writeProductToSell("productToSell", response));
             model.put("success","Dane zapisane do pliku");
         } catch (Exception e) {

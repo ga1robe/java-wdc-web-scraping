@@ -57,12 +57,23 @@ public class ExcelGenerator {
             cell.setCellValue((Boolean) value);
         } else {
             try {
-                cell.setCellValue((String) Jsoup.parse((String) value).text());
+                System.out.println("[check-point] createCell():  value: " + value + "isLinkedString: " + isLinkedString(value));
+                if(isLinkedString(value))
+                    cell.setCellValue((String) Jsoup.parse((String) value).text());
+                else
+                    cell.setCellValue((String) value);
             } catch (Exception e){
                 e.printStackTrace();
             }
         }
         cell.setCellStyle(style);
+    }
+
+    private boolean isLinkedString(Object value) {
+        return String.valueOf(value).contains("<a")
+                && String.valueOf(value).contains("href=")
+                && String.valueOf(value).contains("target=")
+                && String.valueOf(value).contains("</a>");
     }
 
     private void write() {

@@ -47,6 +47,13 @@
 	</tbody>
 </table>
 
+<form method="post" action="/occasions_write">
+	<div class="form-group">
+		<label for="writing">Zapisz powyższe dane to pliku</label>
+		<button type="submit" class="btn btn-primary">Zapisz</button>
+	</div>
+</form>
+
 <h3>dropshipping 2022 produkty do sprzedania</h3>
 
 <form method="post" action="/list/search">
@@ -99,18 +106,11 @@
 	</tbody>
 </table>
 
-<form method="post" action="/write">
+<form method="post" action="/products_write">
 	<div class="form-group">
-		<label for="writing">Zapisz dane to pliku</label>
-		<input type="text" class="form-control" id="file" name="file" placeholder="Podaj nazwę pliku" value="${file}">
+		<label for="writing">Zapisz powyższe dane to pliku</label>
+		<button type="submit" class="btn btn-primary">Zapisz</button>
 	</div>
-	<button type="submit" class="btn btn-primary">Zapisz</button>
-	<c:if test="${savedFile != null}">
-	    <div class="form-group">
-	        <label for="saved-to-file">Zapisano do pliku</label>
-	        <input class="form-control" type="text" placeholder="${savedFile}" readonly>
-	    </div>
-	</c:if>
 </form>
 
 
