@@ -8,7 +8,7 @@ System "java-wdc-web-scraping" służy do przedstawienia ofert i produktów na s
 
 Java, SpringBoot, Spring MVC, SpringWeb, JSP,
 MySQL, H2,
-playwright, poi-ooxml, JSoup
+playwright, JSoup, poi-ooxml.
 
 ### Dokładniejszy opis
 
