@@ -14,8 +14,7 @@ Zbudowanie systemu w technologii SpringBoot do prezentacji
 ofert i produktów na sprzedaż. Wykorzystanie odpowiednich struktur dla przechowywania danych
 zbudowanych w pamięci z wykorzystaniem bazy danych.
 
-System posiada jedną formatkę. Formatka ... Data wprowadzenia temperatury jest
-zapisywana automatycznie.
+System posiada jedną formatkę w postaci dwóch list. Każdą z list można zapisać oddzielnie do pliku typu excel.
 
 Dane są wprowadzene i zapisywane do struktur danych w tle w wątku, z możliwością aktualizacją co 15 minut.
 
