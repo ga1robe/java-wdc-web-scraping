@@ -21,10 +21,10 @@ Dane są wprowadzene i zapisywane do struktur danych w tle w wątku, z możliwo�
 
 ### Opis formatki
 
-Poniżej przedstawiono dwa zrzuty ekranu, powiązane ze stroną JSP.
-Na obrazku jest ekran do wprowadze kolejnych danych miasta i temperatury.
-Na drugim obrazku obrazku jest ekran przedstawiający oferty sprzedaży,
-z możliwością zapisywania do pliku.
+Poniżej przedstawiono cztery zrzuty ekranu, powiązane ze stroną JSP.
+Na obrazach są ekrany przestawiające ofert i produktów na sprzedaż.
+Na obrazkach pod nimi są ekrany przedstawiający okienku zapisu danych do pliku,
+po naciśnięciu klawisza "zapisz".
 
 ![Ekran prezentacji ofert do sprzedaży](https://github.com/ga1robe/java-wdc-web-scraping/blob/master/screenshots/dropshipping_oferty.png)
 
