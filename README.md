@@ -19,6 +19,8 @@ zapisywana automatycznie.
 
 Dane są wprowadzene i zapisywane do struktur danych w tle w wątku, z możliwością aktualizacją co 15 minut.
 
+Po załadowaniu danych do bazy, jest możliwość załadowaniu strony front-end z pełnymi danymi.
+
 ### Opis formatki
 
 Poniżej przedstawiono cztery zrzuty ekranu, powiązane ze stroną JSP.

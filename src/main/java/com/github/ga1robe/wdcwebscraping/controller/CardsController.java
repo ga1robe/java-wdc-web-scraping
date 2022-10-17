@@ -28,7 +28,7 @@ public class CardsController {
     }
 
 //    @RequestMapping(value="/list", method = RequestMethod.POST)
-    @RequestMapping(value="/list/search", method = RequestMethod.POST)
+    @RequestMapping(value="/seach_list", method = RequestMethod.POST)
     public String postTitle(ModelMap model, @RequestParam String title){
         try {
             if (title.isEmpty()) {
@@ -38,8 +38,9 @@ public class CardsController {
                 return "list";
             }
             System.out.println("POST title: " + title);
+//            model.put("searchTitle", this.service.setSearchtitle(title));
             model.put("searchTitle", this.service.setSearchtitle(title));
-            model.put("mainDataSPM", this.service.getMainDataSPM(title));
+            model.put("mainDataSPM", this.service.getMainDataSPM());
             model.put("productToSell", this.service.getProductToSell(title));
             model.put("success","Dane wyszukane");
         } catch (Exception e) {

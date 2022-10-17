@@ -56,7 +56,7 @@
 
 <h3>dropshipping 2022 produkty do sprzedania</h3>
 
-<form method="post" action="/list/search">
+<form method="post" action="/seach_list">
 	<div class="form-group">
 		<label for="title">Tytuł</label>
 		<input type="text" class="form-control" id="title" name="title" placeholder="Podaj tytuł" value="${title}">
