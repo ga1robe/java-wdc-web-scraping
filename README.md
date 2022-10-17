@@ -6,7 +6,9 @@ System "java-wdc-web-scraping" służy do przedstawienia ofert i produktów na s
 
 ### Wykorzystane technologie
 
-Java, SpringBoot, Spring MVC, SpringWeb, JSP
+Java, SpringBoot, Spring MVC, SpringWeb, JSP,
+MySQL, H2,
+playwright, poi-ooxml, JSoup
 
 ### Dokładniejszy opis
 
