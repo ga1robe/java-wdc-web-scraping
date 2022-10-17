@@ -26,6 +26,11 @@ Na obrazku jest ekran do wprowadze kolejnych danych miasta i temperatury.
 Na drugim obrazku obrazku jest ekran przedstawiający oferty sprzedaży,
 z możliwością zapisywania do pliku.
 
-![Ekran prezentacji temperatur-wprowadzenie](https://raw.githubusercontent.com/ga1robe/JavaTempCollector/master/screenshots/screen_of_enter.png)
+![Ekran prezentacji ofert-wprowadzenie](https://github.com/ga1robe/java-wdc-web-scraping/blob/master/screenshots/dropshipping_oferty.png)
 
-![Ekran prezentacji temperatur-lista](https://raw.githubusercontent.com/ga1robe/JavaTempCollector/master/screenshots/screen_of_list.png)
+![Ekran prezentacji ofert-wprowadzenie](https://github.com/ga1robe/java-wdc-web-scraping/blob/master/screenshots/dropshipping_oferts_zapis_do_pliku.png)
+
+![Ekran prezentacji ofert-wprowadzenie](https://github.com/ga1robe/java-wdc-web-scraping/blob/master/screenshots/dropshipping_products_to_sell.png)
+
+![Ekran prezentacji ofert-wprowadzenie](https://github.com/ga1robe/java-wdc-web-scraping/blob/master/screenshots/dropshipping_products_to_sell_zapis_do_pliku.png)
+
